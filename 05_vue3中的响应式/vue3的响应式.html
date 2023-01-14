@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue3的响应式</title>
+</head>
+
+<body>
+
+</body>
+<script text="javascript">
+    //源数据
+    let person = {
+        name: '张三',
+        age: 18,
+    }
+
+    // 模拟vue3的响应式
+    // Peoxy函数的第二个参数不知道传什么可以用{}占位，但是不能为空
+    const p = new window.Proxy(person, {
+        get(target, propName) {
+            // 第一个参数是目标名，第二个参数是属性名
+            console.log(`有人读取了p身上的${propName}属性`);
+            // return target[propName]
+            return Reflect.get(target, propName)
+        },
+
+        set(target, propName, value) {
+            console.log(`有人修改了p身上的${propName}属性，我要去更新界面了！`);
+            // target[propName] = value
+            Reflect.set(target, propName, value)
+        },
+
+        deleteProperty(target, propName) {
+            console.log(`有人删除了p身上的${propName}属性，我要去更新界面了！`);
+            // return delete target[propName]
+            return Reflect.deleteProperty(target, propName)
+        }
+    })
+</script>
+
+</html>
